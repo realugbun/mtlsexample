@@ -8,6 +8,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
+
+	"golang.org/x/net/http2"
 )
 
 // Variables holding the TLS cert and Cert Authority
@@ -32,7 +35,8 @@ func NewFooClient() *FooClient {
 	var newClient FooClient
 
 	newClient.client = &http.Client{
-		Transport: &http.Transport{
+		Timeout: 5 * time.Second,
+		Transport: &http2.Transport{
 			TLSClientConfig: &tls.Config{
 				RootCAs:      caCertPool,
 				Certificates: []tls.Certificate{cert},

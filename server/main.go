@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 
 const contentType = "application/json"
@@ -29,8 +30,10 @@ func newServer(port string) *http.Server {
 	}
 
 	server := &http.Server{
-		Addr:      ":" + port,
-		TLSConfig: tlsConfig,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 5 * time.Second,
+		Addr:         ":" + port,
+		TLSConfig:    tlsConfig,
 	}
 	return server
 }
